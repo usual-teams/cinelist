@@ -1,0 +1,35 @@
+Table "users" {
+  "id" bigint [pk, not null]
+  "username" varchar(500) [not null]
+  "password" varchar(500) [not null]
+  "email" varchar(500) [not null]
+  "created_at" timestamp [not null]
+}
+
+Table "movies" {
+  "id" bigint [pk, not null]
+  "title" varchar(500) [not null]
+  "year" varchar(500)
+  "imdb_id" varchar(500)
+}
+
+Table "watchlist" {
+  "id" bigint [pk, not null]
+  "user_id" bigint [not null]
+  "name" varchar(500)
+  "is_public" boolean [not null]
+  "created_at" timestamp
+}
+
+Table "watchlist_activities" {
+  "id" bigint [pk, not null]
+  "watchlist_id" bigint [not null]
+  "movie_id" bigint [not null]
+  "created_at" timestamp [not null, note: 'Date movie was added']
+}
+
+Ref "watchlist_user_id_fk":"users"."id" < "watchlist"."user_id"
+
+Ref "watchlist_activities_watchlist_id_fk":"watchlist"."id" < "watchlist_activities"."watchlist_id"
+
+Ref "watchlist_activities_movie_id_fk":"movies"."id" < "watchlist_activities"."movie_id"
